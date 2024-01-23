@@ -11,12 +11,14 @@
 #include "./headers/read_file.h"
 #include "./headers/dynamic_array.h"
 
-int main()
+int main(int argc, char *argv[])
 {
     FILE *fptr;
+    // argv[1] - path to the input file, e.g. ./data/1E95 Pseudoknot Structure.pdb
+    // argv[2] - path to the output file, e.g. ./pseudo_energy_1E95.csv
 
     // Open a file in read mode
-    fptr = fopen("./data/7FHI Fluoroquinolone RNA.pdb", "r");
+    fptr = fopen(argv[1], "r");
 
     // Store the content of the file
     char myString[100];
@@ -271,7 +273,7 @@ int main()
         g_hash_table_insert(pseudo_energy, (char *)key, energy);
     }
 
-    g_hash_table_to_csv(pseudo_energy, "./pseudo_energy.csv");
+    g_hash_table_to_csv(pseudo_energy, argv[2]);
 
     // Free the memory
     GHashTableIter iter;
