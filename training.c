@@ -271,7 +271,7 @@ int main()
         g_hash_table_insert(pseudo_energy, (char *)key, energy);
     }
 
-    g_hash_table_to_csv(pseudo_energy, "../pseudo_energy.csv");
+    g_hash_table_to_csv(pseudo_energy, "./pseudo_energy.csv");
 
     // Free the memory
     GHashTableIter iter;
