@@ -71,7 +71,6 @@ int main()
         // Insert empty dynamic array to all basepairs in hash table
         DynamicArray *a = malloc(sizeof(DynamicArray));
         initArray(a, 1);
-        // printf("Inserting %s\n", basepairs[j]);
         g_hash_table_insert(hashTable, basepairs[j], a);
     }
 
@@ -142,7 +141,6 @@ int main()
             char *key = malloc(2 * sizeof(char));
             key[0] = bp1;
             key[1] = bp2;
-            // printf("Key: %s\n", key);
             // Add the distance to the array of distances between bp1 and bp2 in hash table
             // if the bp1+bp2 is not in the table, then insert it to bp2+bp1
             DynamicArray *a = g_hash_table_lookup(hashTable, key);
@@ -154,12 +152,11 @@ int main()
             }
             distance = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(z1 - z2, 2));
             insertArray(a, distance);
-            // printf("Distance between %d %d %f\n", i, j, distance);
         }
         free(copyFstStr);
     }
 
-    // Compute frequencies
+    // COMPUTE FREQUENCIES
     // OBSERVED FREQUENCIES
     GHashTable *frequency_distribution = g_hash_table_new(g_str_hash, g_str_equal);
     GHashTableIter iterFreq;
@@ -168,7 +165,6 @@ int main()
     g_hash_table_iter_init(&iterFreq, hashTable);
     while (g_hash_table_iter_next(&iterFreq, &key, &value))
     {
-        printf("%s\n", (char *)key);
         // Allocate a new frequencies array for each key
         float *frequencies = malloc(20 * sizeof(float));
         if (frequencies == NULL)
@@ -185,7 +181,6 @@ int main()
 
         DynamicArray *a = (DynamicArray *)value;
         ref_count += a->used;
-        printf("Array size: %d\n", a->used);
         for (int i = 0; i < a->used; i++)
         {
             int b = (int)a->array[i];
@@ -200,12 +195,6 @@ int main()
         }
 
         g_hash_table_insert(frequency_distribution, (char *)key, frequencies);
-        printf("FREQUENCIES: ");
-        for (int i = 0; i < 20; i++)
-        {
-            printf("%f ", frequencies[i]);
-        }
-        printf("\n");
     }
 
     // REFERENCE FREQUENCIES
@@ -251,14 +240,6 @@ int main()
         }
     }
 
-    printf("ref size %d\n", ref_count);
-    printf("REF FREQUENCIES: ");
-    for (int i = 0; i < 20; i++)
-    {
-        printf("%f ", ref_frequencies[i]);
-    }
-    printf("\n");
-
     // Compute Score (Pseudo-Energy), log-ratio
     GHashTable *pseudo_energy = g_hash_table_new(g_str_hash, g_str_equal);
     GHashTableIter iterScore;
@@ -288,22 +269,46 @@ int main()
 
         // g_hash_table_insert(frequency_distribution, (char *)key, frequencies);
         g_hash_table_insert(pseudo_energy, (char *)key, energy);
-        printf("%s PSEUDO_ENERGY: ", (char *)key);
-        for (int i = 0; i < 20; i++)
-        {
-            printf("energy: %f, obs: %f, ref: %f \n", energy[i], freqs[i], ref_frequencies[i]);
-        }
-        printf("\n");
     }
 
     g_hash_table_to_csv(pseudo_energy, "../pseudo_energy.csv");
 
+    // Free the memory
+    GHashTableIter iter;
+
+    g_hash_table_iter_init(&iter, hashTable);
+    while (g_hash_table_iter_next(&iter, &key, &value))
+    {
+        DynamicArray *a = (DynamicArray *)value;
+        free(a->array); // Free the internal array
+        free(a);        // Free the DynamicArray structure itself
+    }
     g_hash_table_destroy(hashTable);
+
+    g_hash_table_iter_init(&iter, frequency_distribution);
+    while (g_hash_table_iter_next(&iter, &key, &value))
+    {
+        float *frequencies = (float *)value;
+        free(frequencies);
+    }
     g_hash_table_destroy(frequency_distribution);
+
+    g_hash_table_iter_init(&iter, pseudo_energy);
+    while (g_hash_table_iter_next(&iter, &key, &value))
+    {
+        float *energies = (float *)value;
+        free(energies);
+    }
     g_hash_table_destroy(pseudo_energy);
 
     // free the memory
+    // Finally, free the array of strings if they were dynamically allocated
+    for (int i = 0; i < *current_size; i++)
+    {
+        free(array_of_strings[i]); // Free each string
+    }
     free(array_of_strings);
+    free(current_size);
 
     // Close the file
     fclose(fptr);

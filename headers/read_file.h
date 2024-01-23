@@ -55,7 +55,6 @@ void readFile(FILE *fptr,
                 free(copyCurStr);
             }
             array_of_strings[*current_size] = strdup(myString);
-            printf("%s", array_of_strings[*current_size]);
 
             *current_size = *current_size + 1;
         }
@@ -82,7 +81,7 @@ void g_hash_table_to_csv(GHashTable *table, const char *filename)
     }
 
     // Write header line for CSV (optional, if you want column titles)
-    fprintf(fp, "Key,Frequency1,Frequency2,...,Frequency20\n");
+    fprintf(fp, "Key,Item1,Item2,Item3,Item4,Item5,Item6,Item7,Item8,Item9,Item10,Item11,Item12,Item13,Item14,Item15,Item16,Item17,Item18,Item19,Item20\n");
 
     // Iterate over the hash table
     GHashTableIter iter;
