@@ -27,6 +27,10 @@ It requires to pass 2 arguments when executed. First takes the input file, secon
 
 It will output `.csv` files in `results` directory.
 
+## Colab URL
+
+https://colab.research.google.com/drive/1-lLO0fifVIcNro4TlzP1OboB4euKd0Pj?authuser=0#scrollTo=hqOMRvM3A9lT
+
 ## Second Script
 
 This script takes outputs of the first one (`.csv` files) and produces graphs for pseudo-energies as a function of distance for all residue-pairs.
