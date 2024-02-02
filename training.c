@@ -281,10 +281,16 @@ int main(int argc, char *argv[])
     g_hash_table_iter_init(&iter, hashTable);
     while (g_hash_table_iter_next(&iter, &key, &value))
     {
+        // Print key and values
+        printf("%s: ", (char *)key);
+        printArray((DynamicArray *)value);
+        printf("\n");
+        // Free the memory
         DynamicArray *a = (DynamicArray *)value;
         free(a->array); // Free the internal array
         free(a);        // Free the DynamicArray structure itself
     }
+
     g_hash_table_destroy(hashTable);
 
     g_hash_table_iter_init(&iter, frequency_distribution);
