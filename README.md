@@ -47,3 +47,5 @@ They are visually and textually separated and also can be run separately.
 Because we have multiple log-ratios for the same distance the only thing we could do to compute linear interpolation for any given distance - is to compute average of all log ratios for a given distance. Then sum up all these averaged scores from all distances to get a Gibbs free energy. This is what we did.
 
 **Ideally** you should be able to run these scripts right out of the box, if you set up jupyter notebook in with root in this folder's root. All relative paths are respected in `.ipynb` file.
+
+P.S.: We also provide the main implemented functions in the **source** directory so that they are importable and applicable
