@@ -52,3 +52,25 @@ def energy_calculation(coord_dict, energies):
         
     gibbs_free_energy = np.sum(scores)
     return(gibbs_free_energy)
+
+
+def gibbs_from_files(energies_path=f'../outputs/pseudo_energies/pseudo_energy_7FHI.csv',
+                     distance_file_path = f'../outputs/distances/7FHI.json'):
+    """
+    Performs energy calculation using the energy.csv and distance.json file sources
+
+    Parameters:
+    - energies_path: str path for the pseudo energy .csv file
+    - distance_file_path: str path for the distance .json file
+
+    Returns:
+    - the calculated value of Gibbs free energy
+    """
+    energies = pd.read_csv(energies_path, index_col=0)
+    with open(distance_file_path, 'r') as json_file:
+        dists = json.load(json_file)
+
+    gibbs_free_energy = energy_calculation(dists, energies)
+
+    print(f'The calculated Gibbs free energy for {rna_name} is:\t{gibbs_free_energy}')
+    return gibbs_free_energy
