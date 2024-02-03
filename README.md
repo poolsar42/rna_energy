@@ -13,6 +13,7 @@ It has 2 sub-directories:
 - **a.out**: executable files produced after compiling `training.c`
 - **training.c**: main file which, when compiled, produces executable which solves task for first script.
 - **nodebooks**: directory which contains jupyter notebook with implementation of second and thirds scripts.
+- **scripts**: contains functions in `.py` files, which are used in `.ipynb` notebook.
 
 ## First Script
 
