@@ -19,6 +19,8 @@ It has 2 sub-directories:
 
 ### Compilation
 
+You can safely skip the compilation part, because we already provide an executable file `a.out` in this repo. However if you want to do everything on your own please read instructions carefully.
+
 We use `glib` package for `C` to use implemented hash tables. Before compiling the code make sure to install the package on your machine. See how to install [here](https://gitlab.gnome.org/GNOME/glib/).
 Once installed, run `gcc training.c` \``pkg-config --cflags --libs glib-2.0`\` to compile the code.
 
