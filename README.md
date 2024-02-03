@@ -6,9 +6,13 @@ Here we describe what this repo does and how to run the code.
 
 - **data**: folder, contains `.pdb` files for 3D RNA structures.
 - **headers**: folder, contains helper files which contain functions that are being used in `training.c`
-- **results**: folder, contains outputs of `training.c` script (first script from the assignment). `.csv` files with 10 rows and 20 columns - log-ration values for all residue pairs for 0-20 Å distance range.
+- **outputs**: folder, contains results of `training.c` script (first script from the assignment). 
+It has 2 sub-directories:
+    - **pseudo_energies**: `.csv` files with 10 rows and 20 columns - log-ration values for all residue pairs for 0-20 Å distance range.
+    - **distances**: `.json` and `.txt` files which contain distances for all 10 pairs of nucleotides. These distances then used to compute pseudo energy on them with interpolated curves. Summed energies for the final Gibbs free energy value.
 - **a.out**: executable files produced after compiling `training.c`
 - **training.c**: main file which, when compiled, produces executable which solves task for first script.
+- **nodebooks**: directory which contains jupyter notebook with implementation of second and thirds scripts.
 
 ## First Script
 
@@ -27,14 +31,16 @@ It requires to pass 2 arguments when executed. First takes the input file, secon
 
 It will output `.csv` files in `results` directory.
 
-## Colab URL
+## Second Script and Third Scripts
 
-https://colab.research.google.com/drive/1-lLO0fifVIcNro4TlzP1OboB4euKd0Pj?authuser=0#scrollTo=hqOMRvM3A9lT
+We combined these two scripts in `./notebooks/RNA.ipynb` file.
 
-## Second Script
+They are visually and textually separated and also can be run separately.
 
-This script takes outputs of the first one (`.csv` files) and produces graphs for pseudo-energies as a function of distance for all residue-pairs.
+**Second script** takes outputs of the first one (`.csv`- files) and produces graphs for pseudo-energies as a function of distance for all residue-pairs.
 
-## Third Script
+**Third Script** also takes outputs of the first script and compute Gibbs free energy using linear interpolation. 
 
-Here we take outputs of the first script and compute Gibbs free energy using linear interpolation.
+Because we have multiple log-ratios for the same distance the only thing we could do to compute linear interpolation for any given distance - is to compute average of all log ratios for a given distance. Then sum up all these averaged scores from all distances to get a Gibbs free energy. This is what we did.
+
+**Ideally** you should be able to run these scripts right out of the box, if you set up jupyter notebook in with root in this folder's root. All relative paths are respected in `.ipynb` file.
