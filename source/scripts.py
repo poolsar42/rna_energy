@@ -1,8 +1,9 @@
 import numpy as np
 
+
 def linear_interpolation(x_values, y_values):
     """
-    Performz linear interpolation for a set of points.
+    Performs linear interpolation for a set of points.
 
     Parameters:
     - x_values: List or numpy array of x values
@@ -26,3 +27,28 @@ def linear_interpolation(x_values, y_values):
         return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
 
     return np.vectorize(interpolate)
+
+
+def energy_calculation(coord_dict, energies):
+    """
+    Performs energy calculation using the interpolation for a set of energy points.
+
+    Parameters:
+    - coord_dict: Dict of calculated distances for each nucleotide pairs loaded from a json
+    - energies: DataFrame of calculated pseudo energies
+
+    Returns:
+    - the calculated value of Gibbs free energy
+    """
+    scores = np.array([])
+    
+    for nt_pair in coord_dict.keys():
+        pair_energy = energies.loc[nt_pair]
+        interpol = linear_interpolation(x_values=pair_energy.index.astype('float').values, 
+                                        y_values=pair_energy.values)
+        scores = interpol(coord_dict[nt_pair])
+        scores = np.append(scores, np.sum(pair_energy) / energies.shape[1])
+
+        
+    gibbs_free_energy = np.sum(scores)
+    return(gibbs_free_energy)
